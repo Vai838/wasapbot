@@ -40,18 +40,18 @@ const { removeBackgroundFromImageFile } = require('remove.bg')
 const { ind } = require('./language')
 const vcard = 'BEGIN:VCARD\n' 
             + 'VERSION:3.0\n' 
-            + 'FN:Fadhil\n' //nama lu
-            + 'ORG: Fadhil Graphy;\n' //nama kontak owner
-            + 'TEL;type=CELL;type=VOICE;waid=6288221608614:+62 882-2160-8614\n' //nomor kontak owner
+            + 'FN:Vai838\n' //nama lu
+            + 'ORG:Vai838 ;\n' //nama kontak owner
+            + 'TEL;type=CELL;type=VOICE;waid=917306030148:+91 7306030148\n' //nomor kontak owner
             + 'END:VCARD' //edit menu di : ind.js
 prefix = '#' //prefix
 blocked = []   
 limitawal = 30
 memberlimit = 2
-cr = '*FADHIL BOT VERIFIED!*'
+cr = '*VERIFIED BOT!*'
 
 /******** OWNER NUMBER**********/
-const ownerNumber = ["6288221608614@s.whatsapp.net","6283102650464@s.whatsapp.net"] //nomor owner!!
+const ownerNumber = ["917306030148@s.whatsapp.net","918590656398@s.whatsapp.net"] //nomor owner!!
 /************************************/
 
        
@@ -240,7 +240,7 @@ function kyun(seconds){
   var seconds = Math.floor(seconds % 60);
 
   //return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds)
-  return `${pad(hours)} Jam ${pad(minutes)} Menit ${pad(seconds)} Detik`
+  return `${pad(hours)} Hour ${pad(minutes)} Minutes ${pad(seconds)} Seconds`
 }
 /********** FUNCTION ***************/
 
@@ -470,7 +470,7 @@ client.on('group-participants-update', async (anu) => {
 				_level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
 				uang.sort((a, b) => (a.uang < b.uang) ? 1 : -1)
                 let leaderboardlvl = '-----[ *LEADERBOARD LEVEL* ]----\n\n'
-                let leaderboarduang = '-----[ *LEADERBOARD UANG* ]----\n\n'
+                let leaderboarduang = '-----[ *LEADERBOARD CREDIT* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
@@ -482,12 +482,12 @@ client.on('group-participants-update', async (anu) => {
                     await reply(leaderboarduang)
                 } catch (err) {
                     console.error(err)
-                    await reply(`minimal 10 user untuk bisa mengakses database`)
+                    await reply(`at least 10 users to be able to access the database`)
                 }
 				break
 				case 'mutual':
                 if (!isRegistered) return reply( ind.noregis())
-                if (isGroup) return  reply( 'Command ini tidak bisa digunakan di dalam grup!')
+                if (isGroup) return  reply( 'This command cannot be used in a group!')
                 anug = getRegisteredRandomId(_registered).replace('@s.whatsapp.net','')
                 await reply('Looking for a partner...')
                 await reply(`wa.me/${anug}`)
@@ -495,7 +495,7 @@ client.on('group-participants-update', async (anu) => {
             break
             case 'next':
                 if (!isRegistered) return reply( ind.noregis())
-                if (isGroup) return  reply( 'Command ini tidak bisa digunakan di dalam grup!')
+                if (isGroup) return  reply( 'This command cannot be used in groups!')
                 anug = getRegisteredRandomId(_registered).replace('@s.whatsapp.net','')
                 await reply('Looking for a partner...')
                 await reply(`wa.me/${anug}`)
@@ -506,14 +506,14 @@ client.on('group-participants-update', async (anu) => {
 				if (!q.includes('|')) return  reply(ind.wrongf())
                 const tujuan = q.substring(0, q.indexOf('|') - 1)
                 const jumblah = q.substring(q.lastIndexOf('|') + 1)
-                if (checkATMuser(sender) < jumblah) return reply(`uang mu tidak mencukupi untuk melakukan transfer`)
+                if (checkATMuser(sender) < jumblah) return reply(`You don't have enough credits to make the transfer`)
                 const tujuantf = `${tujuan.replace("@", '')}@s.whatsapp.net`
                 fee = 0.005 *  jumblah
                 hasiltf = jumblah - fee
                 addKoinUser(tujuantf, hasiltf)
                 confirmATM(sender, jumblah)
-                addKoinUser('62895710073737@s.whatsapp.net', fee)
-                reply(`*「 SUKSES 」*\n\npengiriman uang telah sukses\ndari : +${sender.split("@")[0]}\nke : +${tujuan}\njumblah transfer : ${jumblah}\npajak : ${fee}`)
+                addKoinUser('917306030148@s.whatsapp.net', fee)
+                reply(`*「 SUCCESS 」*\n\ncredit transfer was successful\nfrom : +${sender.split("@")[0]}\nto : +${tujuan}\ntotal transfer : ${jumblah}\ntax : ${fee}`)
                 break
 				case 'dompet':
 				if (!isRegistered) return reply(ind.noregis())
@@ -525,11 +525,11 @@ client.on('group-participants-update', async (anu) => {
 				payout = body.slice(10)
 				const koinPerlimit = 300
 				const total = koinPerlimit * payout
-				if ( checkATMuser(sender) <= total) return reply(`maaf uang kamu belum mencukupi. silahkan kumpulkan dan beli nanti`)
+				if ( checkATMuser(sender) <= total) return reply(`sorry your credit is not enough. please collect and buy later`)
 				if ( checkATMuser(sender) >= total ) {
 					confirmATM(sender, total)
 					bayarLimit(sender, payout)
-					await reply(`*「 PEMBAYARAN BERHASIL 」*\n\n*pengirim* : Admin\n*penerima* : ${pushname}\n*nominal pembelian* : ${payout} \n*harga limit* : ${koinPerlimit}/limit\n*sisa uang mu* : ${checkATMuser(sender)}\n\nproses berhasil dengan nomer pembayaran\n${createSerial(15)}`)
+					await reply(`*「 SUCCESSFUL PAYMENT 」*\n\n*sender* : Admin\n*receiver* : ${pushname}\n*nominal purchase* : ${payout} \n*price limit* : ${koinPerlimit}/limit\n*the rest of your credits* : ${checkATMuser(sender)}\n\nsuccessful process with payment number\n${createSerial(15)}`)
 				} 
 				break
 				
@@ -549,7 +549,7 @@ client.on('group-participants-update', async (anu) => {
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
 			data = await fetchJson(`https://tobz-api.herokuapp.com/api/moddroid?q=${body.slice(10)}&apikey=BotWeA`)
 			hepi = data.result[0] 
-			teks = `*Nama*: ${data.result[0].title}\n*publisher*: ${hepi.publisher}\n*mod info:* ${hepi.mod_info}\n*size*: ${hepi.size}\n*latest version*: ${hepi.latest_version}\n*genre*: ${hepi.genre}\n*link:* ${hepi.link}\n*download*: ${hepi.download}`
+			teks = `*Name*: ${data.result[0].title}\n*publisher*: ${hepi.publisher}\n*mod info:* ${hepi.mod_info}\n*size*: ${hepi.size}\n*latest version*: ${hepi.latest_version}\n*genre*: ${hepi.genre}\n*link:* ${hepi.link}\n*download*: ${hepi.download}`
 			buffer = await getBuffer(hepi.image)
 			client.sendMessage(from, buffer, image, {quoted: mek, caption: `${teks}`})
 			await limitAdd(sender)
@@ -559,7 +559,7 @@ client.on('group-participants-update', async (anu) => {
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
 			data = await fetchJson(`https://tobz-api.herokuapp.com/api/happymod?q=${body.slice(10)}&apikey=BotWeA`)
 			hupo = data.result[0] 
-			teks = `*Nama*: ${data.result[0].title}\n*version*: ${hupo.version}\n*size:* ${hupo.size}\n*root*: ${hupo.root}\n*purchase*: ${hupo.price}\n*link*: ${hupo.link}\n*download*: ${hupo.download}`
+			teks = `*Name*: ${data.result[0].title}\n*version*: ${hupo.version}\n*size:* ${hupo.size}\n*root*: ${hupo.root}\n*purchase*: ${hupo.price}\n*link*: ${hupo.link}\n*download*: ${hupo.download}`
 			buffer = await getBuffer(hupo.image)
 			client.sendMessage(from, buffer, image, {quoted: mek, caption: `${teks}`})
 			await limitAdd(sender)
