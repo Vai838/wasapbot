@@ -161,7 +161,7 @@ exports.menu = (pushname, prefix, getLevelingLevel, getLevelingXp, sender, reqXp
 ┣⊱ *${prefix}next*
 ┣━━⊱ *MEDIA MENU* ⊰━━┫
 ┣⊱ *${prefix}quotes*
-┣⊱ *${prefix}beritahoax*
+┣⊱ *${prefix}hoax news*
 ┣⊱ *${prefix}brainly*
 ┣⊱ *${prefix}pinterest*
 ┣⊱ *${prefix}resepmasakan*
